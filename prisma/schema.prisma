@@ -11,3 +11,61 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  medicines Medicine[]
+
+  @@map("users")
+}
+
+model Medicine {
+  id             Int             @id @default(autoincrement())
+  userId         Int
+  user           User            @relation(fields: [userId], references: [id])
+  name           String
+  startDate      DateTime
+  endDate        DateTime
+  createdAt      DateTime        @default(now())
+  logs           Log[]
+  medicineTiming MedicineTiming?
+
+  @@map("medicines")
+}
+
+model MedicineTiming {
+  id         Int      @id @default(autoincrement())
+  medicineId Int      @unique
+  medicine   Medicine @relation(fields: [medicineId], references: [id])
+  morning    Boolean
+  afternoon  Boolean
+  evening    Boolean
+
+  @@map("medicine_timing")
+}
+
+enum Timing {
+  MORNING
+  AFTERNOON
+  EVENING
+}
+
+enum Status {
+  TAKEN
+  MISSED
+}
+
+model Log {
+  id         Int      @id @default(autoincrement())
+  medicineId Int
+  medicine   Medicine @relation(fields: [medicineId], references: [id])
+  timing     Timing
+  takenAt    DateTime
+  status     Status
+  createdAt  DateTime @default(now())
+
+  @@map("logs")
+}
