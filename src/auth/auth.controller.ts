@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Headers, HttpCode, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Body } from '@nestjs/common';
 
@@ -14,5 +14,11 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
     return this.authService.login(loginDto.email, loginDto.password);
+  }
+
+  @Post('logout')
+  @HttpCode(200)
+  async logout(@Headers('authorization') token: string) {
+    return this.authService.logout(token.split(' ')[1]);
   }
 }
