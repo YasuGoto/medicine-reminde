@@ -6,12 +6,14 @@ import {
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly redisService: RedisService,
   ) {}
 
   async register(email: string, password: string): Promise<string> {
@@ -29,5 +31,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
     return this.jwtService.sign({ id: user.id });
+  }
+
+  async logout(token: string): Promise<void> {
+    await this.redisService.addToBlacklist(token);
   }
 }
