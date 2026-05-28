@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from './redis/redis.module';
+import { MedicinesModule } from './medicines/medicines.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { RedisModule } from './redis/redis.module';
     PrismaModule,
     ConfigModule.forRoot({ isGlobal: true }),
     RedisModule,
+    MedicinesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
