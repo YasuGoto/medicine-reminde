@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Medicine } from '../../generated/prisma/client';
 
@@ -42,6 +42,30 @@ export class MedicinesService {
       },
       include: {
         medicineTiming: true,
+      },
+    });
+  }
+
+  async findOne(id: number, userId: number): Promise<Medicine | null> {
+    return this.prisma.medicine.findUnique({
+      where: {
+        id,
+        userId,
+      },
+      include: {
+        medicineTiming: true,
+      },
+    });
+  }
+
+  async delete(id: number, userId: number): Promise<void> {
+    await this.prisma.medicineTiming.delete({
+      where: { medicineId: id },
+    });
+    await this.prisma.medicine.delete({
+      where: {
+        id,
+        userId,
       },
     });
   }
