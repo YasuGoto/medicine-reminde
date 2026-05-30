@@ -7,6 +7,8 @@ import {
   Get,
   Param,
   Delete,
+  NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { MedicinesService } from './medicines.service';
 import { JwtGuard } from 'src/auth/jwt.guard';
