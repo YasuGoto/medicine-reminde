@@ -41,4 +41,28 @@ export class LogsService {
       },
     });
   }
+
+  async findOne(
+    id: number,
+    medicineId: number,
+    userId: number,
+  ): Promise<Log | null> {
+    return this.prisma.log.findUnique({
+      where: {
+        id,
+        medicineId,
+        medicine: {
+          userId,
+        },
+      },
+      include: {
+        medicine: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+  }
 }
