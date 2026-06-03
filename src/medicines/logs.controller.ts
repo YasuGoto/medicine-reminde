@@ -39,4 +39,18 @@ export class LogsController {
   async findAll(@Request() req: any, @Param('medicineId') medicineId: string) {
     return this.logsService.findAll(parseInt(medicineId), req.user.id);
   }
+
+  @UseGuards(JwtGuard)
+  @Get(':id')
+  async findOne(
+    @Request() req: any,
+    @Param('medicineId') medicineId: string,
+    @Param('id') id: string,
+  ) {
+    return this.logsService.findOne(
+      parseInt(id),
+      parseInt(medicineId),
+      req.user.id,
+    );
+  }
 }
