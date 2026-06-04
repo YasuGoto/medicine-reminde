@@ -7,9 +7,12 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from './redis/redis.module';
 import { MedicinesModule } from './medicines/medicines.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksService } from './tasks/tasks.service';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     AuthModule,
     UsersModule,
     PrismaModule,
@@ -18,6 +21,6 @@ import { MedicinesModule } from './medicines/medicines.module';
     MedicinesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TasksService],
 })
 export class AppModule {}
