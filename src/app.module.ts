@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from './redis/redis.module';
 import { MedicinesModule } from './medicines/medicines.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { TasksService } from './tasks/tasks.service';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -19,8 +19,9 @@ import { TasksService } from './tasks/tasks.service';
     ConfigModule.forRoot({ isGlobal: true }),
     RedisModule,
     MedicinesModule,
+    TasksModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TasksService],
+  providers: [AppService],
 })
 export class AppModule {}
